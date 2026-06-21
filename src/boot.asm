@@ -1,8 +1,10 @@
 ; well this is the only bit of code.
 
+; NEW IN 0.4 : COLOUR SUPPORT!!!
+
 ; system variables = 0x700 to 0x7ff
 ; kernel variables = 0x500 to 0x6ff
-; command variables = 0x800 to 0x830 - commands can only be up to 48 letters.
+; command variables = 0x800 to 0x830 - commands can only be up to 48 letters - then 0x831 to 0x8ff for extra screen data like colour.
 ; stack = 0x9000
 bits 16
 org 0x7C00
@@ -129,12 +131,43 @@ ver:
     jmp start
 
 cls:
+    ; also handles colour
+    mov bl, [command+2]
+    cmp bl,"l"
+    je colour
     mov ah, 0
     mov al, 0x03
     int 0x10
+    mov bl, [0x831]
+    call colour.finish
     ret
 
-welcome_msg: db "bootDOS v0.3. (C) Mimmeer - 2026 : Type help for help.",0
+colour:
+    mov bl, [command+4]
+    sub bl, 0x30
+    cmp bl, 0x10
+    jg .hex_letter
+    jmp .finish
+.hex_letter:
+    sub bl, 7
+.finish:
+    mov [0x831], bl
+    mov ah, 0x06
+    xor al, al
+    xor cx, cx
+    mov dx, 184FH
+    mov bh, bl
+    int 0x10
+    mov bl, [command+2]
+    cmp bl,"l"
+    je .colfinish
+    ret
+.colfinish
+    mov di, command+2
+    mov byte [di],'s'
+    jmp cls
+
+welcome_msg: db "bootDOS v0.4. (C) Mimmeer - 2026 : Type help for help.",0
 
 prompt_txt: db newline, "> ",0
 
@@ -142,7 +175,7 @@ nl: db newline,0
 
 err_str: db "Command not found.",0
 
-help_txt: db "HELP:", newline, "shutdown: Shutdown", newline, "cls / clear: Clear Screen", newline, "reboot: Reboot", newline, "help: Help", newline, "prt / print: Print", newline, "ver: Version",0
+help_txt: db "HELP:", newline, "shutdown: Shutdown", newline, "cls / clear: Clear Screen", newline, "col: Set Colour", newline, "reboot: Reboot", newline, "help: Help", newline, "prt / print: Print", newline, "ver: Version",0
 
 ;comment out below if you want to see size in bytes (uncomment them if you want to boot!)
 times 510-($-$$) db 0
