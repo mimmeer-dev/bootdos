@@ -1,7 +1,5 @@
 ; well this is the only bit of code.
 
-; NEW IN 0.4 : COLOUR SUPPORT!!!
-
 ; system variables = 0x700 to 0x7ff
 ; kernel variables = 0x500 to 0x6ff
 ; command variables = 0x800 to 0x830 - commands can only be up to 48 letters - then 0x831 to 0x8ff for extra screen data like colour.
@@ -167,7 +165,7 @@ colour:
     mov byte [di],'s'
     jmp cls
 
-welcome_msg: db "bootDOS v0.4. (C) Mimmeer - 2026 : Type help for help.",0
+welcome_msg: db "bootDOS v0.4.1. (C) Mimmeer - 2026",0
 
 prompt_txt: db newline, "> ",0
 
@@ -175,7 +173,7 @@ nl: db newline,0
 
 err_str: db "Command not found.",0
 
-help_txt: db "HELP:", newline, "shutdown: Shutdown", newline, "cls / clear: Clear Screen", newline, "col: Set Colour", newline, "reboot: Reboot", newline, "help: Help", newline, "prt / print: Print", newline, "ver: Version",0
+help_txt: db "For help, visit https://github.com/mimmeer-dev/bootdos/blob/main/HELP.md.",0
 
 ;comment out below if you want to see size in bytes (uncomment them if you want to boot!)
 times 510-($-$$) db 0
