@@ -1,6 +1,9 @@
 # bootDOS
 I fit a "DOS" in 512 bytes.
-
+```
+ /_  __  __  /_  /'\  /''/  /'
+/_/ /_/ /_/ /_  /_,/ /__/  _/
+```
 ## This is bootDOS
 The operating system that fits in 512 bytes. Technically, 390 bytes as of 0.3.0.
 It packs in a prompt, backspace, first letter based command parser, and 7 commands! Some of these include...
