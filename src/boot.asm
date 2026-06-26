@@ -165,15 +165,15 @@ colour:
     mov byte [di],'s'
     jmp cls
 
-welcome_msg: db "bootDOS v0.4.1. (C) Mimmeer - 2026",0
+welcome_msg: db  " /_  __  __  /_  /'\  /''/  /'", newline, "/_/ /_/ /_/ /_  /_,/ /__/  _/ 0.4.1 : Mimmeer 2026",newline,0
 
 prompt_txt: db newline, "> ",0
 
 nl: db newline,0
 
-err_str: db "Command not found.",0
+err_str: db "Not found.",0
 
-help_txt: db "For help, visit https://github.com/mimmeer-dev/bootdos/blob/main/HELP.md.",0
+help_txt: db "Help:https://github.com/mimmeer-dev/bootdos/blob/main/HELP.md.",0
 
 ;comment out below if you want to see size in bytes (uncomment them if you want to boot!)
 times 510-($-$$) db 0
